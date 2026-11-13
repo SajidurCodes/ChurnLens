@@ -1,0 +1,56 @@
+{
+  "source_sha256": "90d5fb6bd1630cd4de4b4d28fcf8b4cb92a8f6ab7484605b0799d47386f7dbe1",
+  "manifest_sha256": "b7ad8e3c772fb1b2f1b095765cacdfc34b670eec80fa12b9539e2cc1f46e0151",
+  "evaluation_partition": "validation",
+  "train_rows": 1883,
+  "validation_rows": 636,
+  "training_churn_rate": 0.15985130111524162,
+  "validation_churn_rate": 0.15566037735849056,
+  "calibration": "No post-hoc calibration fitted",
+  "threshold_policy": "Fixed 0.5 baseline; not optimized",
+  "confusion_matrix_layout": "[[TN, FP], [FN, TP]]",
+  "models": {
+    "dummy_prior": {
+      "average_precision": 0.15566037735849056,
+      "roc_auc": 0.5,
+      "brier_score": 0.1314477881210378,
+      "log_loss": 0.4324690744715243,
+      "threshold": 0.5,
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "flagged_fraction": 0.0,
+      "confusion_matrix": [
+        [
+          537,
+          0
+        ],
+        [
+          99,
+          0
+        ]
+      ]
+    },
+    "logistic_regression": {
+      "average_precision": 0.8128202293873009,
+      "roc_auc": 0.936092771288302,
+      "brier_score": 0.06168351912070142,
+      "log_loss": 0.21115033229807517,
+      "threshold": 0.5,
+      "precision": 0.9166666666666666,
+      "recall": 0.5555555555555556,
+      "f1": 0.6918238993710691,
+      "flagged_fraction": 0.09433962264150944,
+      "confusion_matrix": [
+        [
+          532,
+          5
+        ],
+        [
+          44,
+          55
+        ]
+      ]
+    }
+  }
+}

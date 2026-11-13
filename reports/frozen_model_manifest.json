@@ -1,0 +1,50 @@
+{
+  "release_id": "churnlens-v0.1",
+  "status": "frozen_before_final_test",
+  "selected_model": "forest_raw",
+  "threshold": 0.2216680816787302,
+  "comparison": ">=",
+  "model_features": [
+    "call_failure",
+    "subscription_length",
+    "seconds_of_use",
+    "frequency_of_use",
+    "frequency_of_sms",
+    "distinct_called_numbers",
+    "charge_amount",
+    "age_group",
+    "complains",
+    "tariff_plan"
+  ],
+  "source_sha256": "90d5fb6bd1630cd4de4b4d28fcf8b4cb92a8f6ab7484605b0799d47386f7dbe1",
+  "split_manifest_sha256": "b7ad8e3c772fb1b2f1b095765cacdfc34b670eec80fa12b9539e2cc1f46e0151",
+  "validation_error_analysis_sha256": "81d3e8099171f07c85e98e52305c60ab2fbb968a67b6d21bb3f3c8aec6c9e351",
+  "python_version": "3.11.3",
+  "package_versions": {
+    "numpy": "2.4.6",
+    "pandas": "2.2.3",
+    "scipy": "1.17.1",
+    "scikit-learn": "1.6.1",
+    "joblib": "1.6.0"
+  },
+  "files": {
+    "model.joblib": {
+      "path": "artifacts/frozen/model.joblib",
+      "sha256": "8e5934fc9484f8081643297f7d614d931ea376f40f190b9dc3d3c451accf1378"
+    },
+    "decision.json": {
+      "path": "artifacts/frozen/decision.json",
+      "sha256": "e66f6401c036c4e820aea75a5fd593d8414929050def1e379524165cc57a15ef"
+    },
+    "requirements.txt": {
+      "path": "artifacts/frozen/requirements.txt",
+      "sha256": "c45c2f68c3cc8738a903cbdcffbd3ae81e5c8c5c93d7a7488120673ffb545b67"
+    }
+  },
+  "limitations": [
+    "Offline dataset benchmark; no verified temporal test split.",
+    "Profile grouping does not establish unique customer identities.",
+    "Fixed threshold does not guarantee a future 20% flag rate.",
+    "Final-test performance has not yet been evaluated."
+  ]
+}

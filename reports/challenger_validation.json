@@ -1,0 +1,144 @@
+{
+  "source_sha256": "90d5fb6bd1630cd4de4b4d28fcf8b4cb92a8f6ab7484605b0799d47386f7dbe1",
+  "manifest_sha256": "b7ad8e3c772fb1b2f1b095765cacdfc34b670eec80fa12b9539e2cc1f46e0151",
+  "configuration": {
+    "bootstrap": true,
+    "ccp_alpha": 0.0,
+    "class_weight": null,
+    "criterion": "gini",
+    "max_depth": 8,
+    "max_features": "sqrt",
+    "max_leaf_nodes": null,
+    "max_samples": null,
+    "min_impurity_decrease": 0.0,
+    "min_samples_leaf": 5,
+    "min_samples_split": 2,
+    "min_weight_fraction_leaf": 0.0,
+    "monotonic_cst": null,
+    "n_estimators": 300,
+    "n_jobs": 2,
+    "oob_score": false,
+    "random_state": 42,
+    "verbose": 0,
+    "warm_start": false
+  },
+  "cv_scope": "Training rows only; same grouped folds for both models",
+  "folds": [
+    {
+      "fit_rows": 1262,
+      "holdout_rows": 621,
+      "overlapping_groups": 0
+    },
+    {
+      "fit_rows": 1250,
+      "holdout_rows": 633,
+      "overlapping_groups": 0
+    },
+    {
+      "fit_rows": 1254,
+      "holdout_rows": 629,
+      "overlapping_groups": 0
+    }
+  ],
+  "training_cv": {
+    "logistic_regression": {
+      "average_precision": {
+        "fold_values": [
+          0.7516772776805369,
+          0.6576935163989003,
+          0.7297842046363178
+        ],
+        "mean": 0.713051666238585,
+        "std": 0.040151548140220095
+      },
+      "roc_auc": {
+        "fold_values": [
+          0.925288514379923,
+          0.9068090787716956,
+          0.9165277885435238
+        ],
+        "mean": 0.9162084605650475,
+        "std": 0.007547576338049808
+      },
+      "brier_score": {
+        "fold_values": [
+          0.0799603169720785,
+          0.08245457852763388,
+          0.07361347207387807
+        ],
+        "mean": 0.07867612252453016,
+        "std": 0.0037218416020384478
+      },
+      "log_loss": {
+        "fold_values": [
+          0.2501934908026149,
+          0.25690981425637965,
+          0.23969630600619124
+        ],
+        "mean": 0.24893320368839525,
+        "std": 0.0070836647425621515
+      }
+    },
+    "random_forest": {
+      "average_precision": {
+        "fold_values": [
+          0.8157300024697746,
+          0.7831495958782981,
+          0.8321375120971426
+        ],
+        "mean": 0.8103390368150718,
+        "std": 0.020359287264600234
+      },
+      "roc_auc": {
+        "fold_values": [
+          0.9538834951456311,
+          0.9520122067518596,
+          0.95355980156577
+        ],
+        "mean": 0.9531518344877536,
+        "std": 0.0008166018677931656
+      },
+      "brier_score": {
+        "fold_values": [
+          0.06797022243977993,
+          0.06371436965630489,
+          0.059614363634585874
+        ],
+        "mean": 0.06376631857689023,
+        "std": 0.003411462844670133
+      },
+      "log_loss": {
+        "fold_values": [
+          0.2170562381771735,
+          0.20789801752374112,
+          0.19959002409674412
+        ],
+        "mean": 0.20818142659921957,
+        "std": 0.00713336755928994
+      }
+    }
+  },
+  "validation_random_forest": {
+    "average_precision": 0.8950920626002157,
+    "roc_auc": 0.9764591915429904,
+    "brier_score": 0.04702635973231294,
+    "log_loss": 0.16397956069657685,
+    "threshold": 0.5,
+    "precision": 0.8255813953488372,
+    "recall": 0.7171717171717171,
+    "f1": 0.7675675675675676,
+    "flagged_fraction": 0.13522012578616352,
+    "confusion_matrix": [
+      [
+        522,
+        15
+      ],
+      [
+        28,
+        71
+      ]
+    ]
+  },
+  "calibration": "No post-hoc calibration fitted",
+  "threshold_policy": "Fixed 0.5; not optimized"
+}
