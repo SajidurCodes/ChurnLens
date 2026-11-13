@@ -1,5 +1,6 @@
-# Python environment and caches
+# Python environments and caches
 .venv/
+.venv-*/
 __pycache__/
 *.py[cod]
 .pytest_cache/
@@ -12,10 +13,18 @@ __pycache__/
 # Downloaded and generated datasets
 data/
 
-# Trained model artifacts
-artifacts/
+# Intermediate model artifacts
+artifacts/*
+!artifacts/frozen/
+artifacts/frozen/*
+!artifacts/frozen/model.joblib
+!artifacts/frozen/decision.json
+!artifacts/frozen/requirements.txt
+
+# Other serialized models
 *.joblib
 *.pkl
+!artifacts/frozen/model.joblib
 
 # Editor configuration
 .vscode/

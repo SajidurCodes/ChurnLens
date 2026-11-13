@@ -1,0 +1,7 @@
+# Preserve the exact bytes used by frozen-artifact checksums.
+artifacts/frozen/** -text
+reports/frozen_model_manifest.json -text
+
+# Preserve the original CSV and split manifest if tracked later.
+data/raw/customer_churn.csv -text
+data/splits/manifest.csv -text

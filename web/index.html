@@ -1,0 +1,358 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ChurnLens — Customer review</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #0c1420;
+      --panel: #142131;
+      --border: #304359;
+      --text: #edf3fa;
+      --muted: #adbed1;
+      --accent: #80ead0;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font: 16px/1.55 system-ui, sans-serif;
+    }
+    main { max-width: 1120px; margin: auto; padding: 36px 24px; }
+    header {
+      display: flex; justify-content: space-between;
+      align-items: center; gap: 20px; flex-wrap: wrap;
+      border-bottom: 1px solid var(--border); padding-bottom: 24px;
+    }
+    h1 { margin: 0; font-size: 32px; letter-spacing: -1px; }
+    h2 { margin: 0 0 8px; font-size: 21px; }
+    p { margin: 8px 0 18px; }
+    a { color: var(--accent); }
+    .muted, small { color: var(--muted); }
+    .eyebrow {
+      color: var(--accent); text-transform: uppercase;
+      letter-spacing: 2px; font-size: 12px; font-weight: 700;
+    }
+    .layout {
+      display: grid; grid-template-columns: 1.3fr 1fr;
+      gap: 24px; margin-top: 28px; align-items: start;
+    }
+    .card {
+      background: var(--panel); border: 1px solid var(--border);
+      border-radius: 18px; padding: 26px;
+    }
+    fieldset { margin: 0; padding: 0; border: 0; min-width: 0; }
+    .fields { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+    label { display: block; font-size: 14px; }
+    input, select {
+      width: 100%; margin-top: 6px; padding: 11px 12px;
+      border: 1px solid #52677e; border-radius: 8px;
+      background: #0c1724; color: var(--text); font: inherit;
+    }
+    input:focus, select:focus, button:focus-visible {
+      outline: 2px solid var(--accent); outline-offset: 3px;
+    }
+    button {
+      border: 0; border-radius: 9px; padding: 12px 18px;
+      font: inherit; font-weight: 700; cursor: pointer;
+    }
+    .primary { background: var(--accent); color: #102923; }
+    .secondary { background: #2b4055; color: var(--text); }
+    button:disabled { opacity: .55; cursor: wait; }
+    .actions { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 24px; }
+    .probability {
+      font-size: 64px; line-height: 1.2;
+      font-weight: 700; letter-spacing: -3px; margin: 12px 0;
+    }
+    .decision { font-size: 20px; font-weight: 700; }
+    .decision.flagged { color: #ffce80; }
+    .decision.unflagged { color: var(--accent); }
+    dl {
+      display: grid; grid-template-columns: 1fr auto;
+      gap: 12px; margin-top: 24px;
+    }
+    dt { color: var(--muted); }
+    dd { margin: 0; }
+    .error { color: #ffb8b8; white-space: pre-line; }
+    .notes {
+      border-top: 1px solid var(--border);
+      margin-top: 24px; padding-top: 18px; font-size: 14px;
+    }
+    details { margin-top: 22px; }
+    summary { cursor: pointer; color: var(--accent); }
+    [hidden] { display: none !important; }
+    @media (max-width: 800px) {
+      .layout { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 460px) {
+      main { padding: 20px 14px; }
+      .card { padding: 20px; }
+      .fields { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+<main>
+  <header>
+    <div>
+      <div class="eyebrow">Customer churn · Local demo</div>
+      <h1>ChurnLens</h1>
+      <div class="muted">Estimate risk. Prioritize review.</div>
+    </div>
+    <div>
+      <div id="health" role="status">Checking model availability…</div>
+      <a href="/docs">API documentation</a>
+    </div>
+  </header>
+
+  <div class="layout">
+    <section class="card">
+      <h2>Customer profile</h2>
+      <p class="muted">
+        Use the source dataset’s first-nine-month aggregates.
+        Subscription length is measured at the observation cutoff.
+      </p>
+
+      <form id="prediction-form">
+        <fieldset id="inputs">
+          <div class="fields" id="fields"></div>
+          <div class="actions">
+            <button class="primary" type="submit" id="submit">
+              Estimate churn risk
+            </button>
+            <button class="secondary" type="button" id="example">
+              Load example
+            </button>
+          </div>
+        </fieldset>
+      </form>
+
+      <p id="message" role="status"></p>
+      <p id="error" class="error" role="alert" hidden></p>
+
+      <details>
+        <summary>Input definitions</summary>
+        <p class="muted">
+          Usage is measured in seconds; subscription length is in months.
+          Charge amount is an ordinal band, not a currency amount.
+          Band 10 is retained because it occurs in the source data,
+          although its documentation describes bands 0–9.
+        </p>
+        <p class="muted">
+          Age groups use the source’s ordered codes, from 1 (youngest)
+          to 5 (oldest). Exact age boundaries are not established here.
+          Enter whole numbers. Blank values are not treated as zero.
+        </p>
+      </details>
+    </section>
+
+    <aside class="card" aria-labelledby="result-heading">
+      <h2 id="result-heading">Prediction</h2>
+      <div id="empty" class="muted">
+        Enter a profile or load the illustrative example, then estimate risk.
+      </div>
+
+      <div id="result" aria-live="polite" hidden>
+        <div class="muted">Estimated churn probability</div>
+        <div id="probability" class="probability"></div>
+        <div id="decision" class="decision"></div>
+        <dl>
+          <dt>Review threshold</dt><dd id="threshold"></dd>
+          <dt>Model version</dt><dd id="version"></dd>
+        </dl>
+        <p class="muted">
+          The decision uses the full-precision threshold returned by the API.
+          Displayed percentages are rounded.
+        </p>
+      </div>
+
+      <div class="notes muted">
+        <p>
+          This is an offline benchmark predicting month-twelve churn status
+          from earlier aggregates. Future-period performance has not been
+          verified.
+        </p>
+        <p>
+          Probabilities are imperfect estimates. A review flag is not proof
+          that a retention offer will work, and being below the threshold
+          does not mean zero risk.
+        </p>
+        <p>
+          The threshold was selected under a 20% validation review-capacity
+          assumption. It does not guarantee that capacity on new customers.
+        </p>
+      </div>
+    </aside>
+  </div>
+</main>
+
+<script>
+"use strict";
+
+const definitions = [
+  ["call_failure", "Call failures", null],
+  ["subscription_length", "Subscription length · months", null],
+  ["seconds_of_use", "Call duration · seconds", null],
+  ["frequency_of_use", "Number of calls", null],
+  ["frequency_of_sms", "Number of SMS messages", null],
+  ["distinct_called_numbers", "Distinct called numbers", null],
+  ["charge_amount", "Charge band", Array.from({length: 11}, (_, i) => [i, String(i)])],
+  ["age_group", "Age group", [[1, "1 · youngest"], [2, "2"], [3, "3"], [4, "4"], [5, "5 · oldest"]]],
+  ["complains", "Complaint recorded", [[0, "No"], [1, "Yes"]]],
+  ["tariff_plan", "Tariff plan", [[1, "Pay as you go"], [2, "Contractual"]]]
+];
+
+const example = {
+  call_failure: 2,
+  subscription_length: 24,
+  seconds_of_use: 1200,
+  frequency_of_use: 40,
+  frequency_of_sms: 15,
+  distinct_called_numbers: 10,
+  charge_amount: 3,
+  age_group: 3,
+  complains: 0,
+  tariff_plan: 1
+};
+
+const byId = id => document.getElementById(id);
+const form = byId("prediction-form");
+
+for (const [name, title, choices] of definitions) {
+  const label = document.createElement("label");
+  label.htmlFor = name;
+  label.append(document.createTextNode(title));
+
+  const control = document.createElement(choices ? "select" : "input");
+  control.id = name;
+  control.name = name;
+  control.required = true;
+
+  if (choices) {
+    control.add(new Option("Select…", ""));
+    for (const [value, text] of choices) {
+      control.add(new Option(text, String(value)));
+    }
+  } else {
+    control.type = "number";
+    control.min = "0";
+    control.max = "2147483647";
+    control.step = "1";
+  }
+
+  label.append(control);
+  byId("fields").append(label);
+}
+
+function clearResult() {
+  byId("result").hidden = true;
+  byId("empty").hidden = false;
+  byId("error").hidden = true;
+  byId("message").textContent = "";
+}
+
+form.addEventListener("input", clearResult);
+
+byId("example").addEventListener("click", () => {
+  for (const [name, value] of Object.entries(example)) {
+    byId(name).value = String(value);
+  }
+  clearResult();
+  byId("message").textContent = "Illustrative example loaded. Click Estimate churn risk.";
+});
+
+form.addEventListener("submit", async event => {
+  event.preventDefault();
+  clearResult();
+  if (!form.reportValidity()) return;
+
+  const payload = {};
+  for (const [name] of definitions) {
+    const text = byId(name).value.trim();
+    const value = Number(text);
+    if (!text || !Number.isSafeInteger(value)) {
+      byId("error").textContent = "Enter a whole number for every numeric field.";
+      byId("error").hidden = false;
+      return;
+    }
+    payload[name] = value;
+  }
+
+  byId("inputs").disabled = true;
+  byId("message").textContent = "Estimating risk…";
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 15000);
+
+  try {
+    const response = await fetch("/predict", {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify(payload),
+      signal: controller.signal
+    });
+    const data = await response.json();
+
+    if (!response.ok) {
+      const errors = Array.isArray(data.detail)
+        ? data.detail.map(e => `${e.loc.slice(1).join(".")}: ${e.msg}`).join("\n")
+        : `Request failed (HTTP ${response.status}).`;
+      throw new Error(errors);
+    }
+
+    const probability = data.churn_probability;
+    if (
+      typeof probability !== "number" ||
+      !Number.isFinite(probability) ||
+      probability < 0 || probability > 1 ||
+      typeof data.flagged_for_review !== "boolean" ||
+      typeof data.model_version !== "string" ||
+      !(data.threshold === null ||
+        (typeof data.threshold === "number" &&
+         Number.isFinite(data.threshold) &&
+         data.threshold >= 0 && data.threshold <= 1))
+    ) {
+      throw new Error("The server returned an invalid prediction response.");
+    }
+
+    byId("probability").textContent = `${(probability * 100).toFixed(2)}%`;
+    byId("threshold").textContent = data.threshold === null
+      ? "Review flags disabled"
+      : `${(data.threshold * 100).toFixed(2)}%`;
+    byId("version").textContent = data.model_version;
+
+    const flagged = data.flagged_for_review;
+    byId("decision").textContent = flagged
+      ? "Flagged for review"
+      : "Not flagged for review";
+    byId("decision").className = `decision ${flagged ? "flagged" : "unflagged"}`;
+
+    byId("empty").hidden = true;
+    byId("result").hidden = false;
+    byId("message").textContent = "Prediction complete.";
+  } catch (error) {
+    byId("message").textContent = "";
+    byId("error").textContent = error.name === "AbortError"
+      ? "The request timed out. Check the local server and try again."
+      : error.message;
+    byId("error").hidden = false;
+  } finally {
+    clearTimeout(timeout);
+    byId("inputs").disabled = false;
+  }
+});
+
+fetch("/health", {signal: AbortSignal.timeout(5000)})
+  .then(async response => {
+    if (!response.ok) throw new Error();
+    const data = await response.json();
+    byId("health").textContent = `Model ready · ${data.model_version}`;
+  })
+  .catch(() => {
+    byId("health").textContent = "Server unavailable · check your terminal";
+  });
+</script>
+</body>
+</html>

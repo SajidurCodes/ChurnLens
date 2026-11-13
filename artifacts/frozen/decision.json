@@ -1,0 +1,56 @@
+{
+  "selected_model": "forest_raw",
+  "model_path": "artifacts/calibration/forest_raw.joblib",
+  "model_sha256": "8e5934fc9484f8081643297f7d614d931ea376f40f190b9dc3d3c451accf1378",
+  "source_sha256": "90d5fb6bd1630cd4de4b4d28fcf8b4cb92a8f6ab7484605b0799d47386f7dbe1",
+  "manifest_sha256": "b7ad8e3c772fb1b2f1b095765cacdfc34b670eec80fa12b9539e2cc1f46e0151",
+  "selection_partition": "validation",
+  "validation_rows": 636,
+  "model_selection_basis": "Lowest validation log loss among the four fixed candidates; also lowest validation Brier score.",
+  "threshold_objective": "Maximize true positives within 20% validation capacity; break equal-recall ties by fewer flags; keep score ties together.",
+  "reference_at_0_5": {
+    "average_precision": 0.8950920626002157,
+    "roc_auc": 0.9764591915429904,
+    "brier_score": 0.04702635973231294,
+    "log_loss": 0.16397956069657685,
+    "threshold": 0.5,
+    "precision": 0.8255813953488372,
+    "recall": 0.7171717171717171,
+    "f1": 0.7675675675675676,
+    "flagged_fraction": 0.13522012578616352,
+    "confusion_matrix": [
+      [
+        522,
+        15
+      ],
+      [
+        28,
+        71
+      ]
+    ]
+  },
+  "selected_policy": {
+    "threshold": 0.2216680816787302,
+    "comparison": ">=",
+    "null_threshold_means": "flag nobody",
+    "max_flag_fraction": 0.2,
+    "capacity_rows": 127,
+    "flagged_rows": 124,
+    "flagged_fraction": 0.1949685534591195,
+    "precision": 0.7338709677419355,
+    "recall": 0.9191919191919192,
+    "f1": 0.8161434977578476,
+    "confusion_matrix": [
+      [
+        504,
+        33
+      ],
+      [
+        8,
+        91
+      ]
+    ]
+  },
+  "confusion_matrix_layout": "[[TN, FP], [FN, TP]]",
+  "limitation": "The fixed threshold does not guarantee a 20% flag rate on another dataset."
+}
