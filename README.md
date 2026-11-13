@@ -13,7 +13,7 @@ installed Python 3.11.3 environment and the committed frozen model.
 ## Demo
 
 ![ChurnLens browser interface showing a customer churn prediction](screenshots/s1.png)
-![ChurnLens browser interface showing a customer churn prediction](screenshots/s2.png)
+
 
 ## What it demonstrates
 
