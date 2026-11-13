@@ -1,0 +1,99 @@
+{
+  "release_id": "churnlens-v0.1",
+  "evaluation_partition": "test",
+  "frozen_manifest_sha256": "67d7efb90eb15fa01b2f3d6f86ab3b0081a128fdd660fa4494397a714fe8acf6",
+  "model_sha256": "8e5934fc9484f8081643297f7d614d931ea376f40f190b9dc3d3c451accf1378",
+  "source_sha256": "90d5fb6bd1630cd4de4b4d28fcf8b4cb92a8f6ab7484605b0799d47386f7dbe1",
+  "split_manifest_sha256": "b7ad8e3c772fb1b2f1b095765cacdfc34b670eec80fa12b9539e2cc1f46e0151",
+  "rows": 631,
+  "churners": 95,
+  "churn_rate": 0.15055467511885895,
+  "probability_metrics": {
+    "average_precision": 0.8872000170062263,
+    "roc_auc": 0.9723095051060486,
+    "brier_score": 0.04879477005877464,
+    "log_loss": 0.16988782199208116
+  },
+  "frozen_policy": {
+    "threshold": 0.2216680816787302,
+    "comparison": ">=",
+    "flagged_rows": 116,
+    "flagged_fraction": 0.1838351822503962,
+    "precision": 0.7155172413793104,
+    "recall": 0.8736842105263158,
+    "f1": 0.7867298578199052,
+    "confusion_matrix": [
+      [
+        503,
+        33
+      ],
+      [
+        12,
+        83
+      ]
+    ]
+  },
+  "reference_at_0_5": {
+    "threshold": 0.5,
+    "comparison": ">=",
+    "flagged_rows": 66,
+    "flagged_fraction": 0.1045958795562599,
+    "precision": 0.8939393939393939,
+    "recall": 0.6210526315789474,
+    "f1": 0.7329192546583851,
+    "confusion_matrix": [
+      [
+        529,
+        7
+      ],
+      [
+        36,
+        59
+      ]
+    ]
+  },
+  "reliability_bins": [
+    {
+      "lower": 0.0,
+      "upper": 0.2,
+      "count": 507,
+      "mean_probability": 0.05085384339175368,
+      "observed_churn_rate": 0.01972386587771203
+    },
+    {
+      "lower": 0.2,
+      "upper": 0.4,
+      "count": 47,
+      "mean_probability": 0.27354976651473273,
+      "observed_churn_rate": 0.3829787234042553
+    },
+    {
+      "lower": 0.4,
+      "upper": 0.6000000000000001,
+      "count": 25,
+      "mean_probability": 0.5029007985362821,
+      "observed_churn_rate": 0.68
+    },
+    {
+      "lower": 0.6000000000000001,
+      "upper": 0.8,
+      "count": 19,
+      "mean_probability": 0.6837231067047979,
+      "observed_churn_rate": 0.8947368421052632
+    },
+    {
+      "lower": 0.8,
+      "upper": 1.0,
+      "count": 33,
+      "mean_probability": 0.917094539992838,
+      "observed_churn_rate": 1.0
+    }
+  ],
+  "confusion_matrix_layout": "[[TN, FP], [FN, TP]]",
+  "limitations": [
+    "Single held-out dataset partition; no temporal validation.",
+    "Matching input profiles were grouped, not verified identities.",
+    "Threshold selected on validation; not adjusted on test.",
+    "A fixed threshold does not enforce a future capacity limit."
+  ]
+}
