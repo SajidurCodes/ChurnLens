@@ -10,6 +10,11 @@ customer aggregates and applies a frozen threshold to prioritize review.
 **Verified:** 78 tests passed in a fresh Git worktree using a separately
 installed Python 3.11.3 environment and the committed frozen model.
 
+## Demo
+
+![ChurnLens browser interface showing a customer churn prediction](screenshots/s1.png)
+![ChurnLens browser interface showing a customer churn prediction](screenshots/s2.png)
+
 ## What it demonstrates
 
 - Dataset validation, source checksums, and duplicate-profile detection.
