@@ -1,0 +1,21 @@
+# Python environment and caches
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# Local secrets
+.env
+.env.*
+!.env.example
+
+# Downloaded and generated datasets
+data/
+
+# Trained model artifacts
+artifacts/
+*.joblib
+*.pkl
+
+# Editor configuration
+.vscode/

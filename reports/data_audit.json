@@ -1,0 +1,91 @@
+{
+  "rows": 3150,
+  "input_columns": 13,
+  "normalized_columns": [
+    "call_failure",
+    "complains",
+    "subscription_length",
+    "charge_amount",
+    "seconds_of_use",
+    "frequency_of_use",
+    "frequency_of_sms",
+    "distinct_called_numbers",
+    "age_group",
+    "tariff_plan",
+    "status",
+    "age",
+    "customer_value",
+    "churn"
+  ],
+  "missing_cells": 0,
+  "class_counts": {
+    "0": 2655,
+    "1": 495
+  },
+  "churn_rate": 0.15714285714285714,
+  "duplicate_rows_beyond_first": 300,
+  "duplicate_input_profiles_beyond_first": 314,
+  "conflicting_label_groups": 14,
+  "ranges": {
+    "call_failure": {
+      "min": 0.0,
+      "max": 36.0
+    },
+    "complains": {
+      "min": 0.0,
+      "max": 1.0
+    },
+    "subscription_length": {
+      "min": 3.0,
+      "max": 47.0
+    },
+    "charge_amount": {
+      "min": 0.0,
+      "max": 10.0
+    },
+    "seconds_of_use": {
+      "min": 0.0,
+      "max": 17090.0
+    },
+    "frequency_of_use": {
+      "min": 0.0,
+      "max": 255.0
+    },
+    "frequency_of_sms": {
+      "min": 0.0,
+      "max": 522.0
+    },
+    "distinct_called_numbers": {
+      "min": 0.0,
+      "max": 97.0
+    },
+    "age_group": {
+      "min": 1.0,
+      "max": 5.0
+    },
+    "tariff_plan": {
+      "min": 1.0,
+      "max": 2.0
+    },
+    "status": {
+      "min": 1.0,
+      "max": 2.0
+    },
+    "age": {
+      "min": 15.0,
+      "max": 55.0
+    },
+    "customer_value": {
+      "min": 0.0,
+      "max": 2165.28
+    },
+    "churn": {
+      "min": 0.0,
+      "max": 1.0
+    }
+  },
+  "warnings": [
+    "Charge Amount exceeds the documented 0\u20139 range. Preserve the source values; investigate and document."
+  ],
+  "sha256": "90d5fb6bd1630cd4de4b4d28fcf8b4cb92a8f6ab7484605b0799d47386f7dbe1"
+}
